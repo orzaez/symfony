@@ -1,0 +1,12 @@
+.dos:nth-child(2n-1){
+    background: #99ffcc;
+}
+.tres:nth-child(3n+1){
+    background: #99ff66;
+}
+.cuatro:nth-child(4n+1){
+    background: #ff99ff;
+}
+.cinco:nth-child(5n+1){
+    background: #ff9966;
+}
