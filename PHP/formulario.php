@@ -39,15 +39,14 @@
         echo "<h3>Esta consulta se ha realizado el: " . date("d/m/Y"). " a las: " .date ("H:i a"). "<br> </h3>";
         
         
-        // $cliente = curl_init();
-	    // curl_setopt($cliente, CURLOPT_URL, "https://www.google.com");
-	    // curl_setopt($cliente, CURLOPT_HEADER, 0);
-        // curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); 
-	    // $web=curl_exec($cliente);
-        // var_dump($web);
-        // die;
-	    // curl_close($cliente);
-
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://api.mercadolibre.com/users/226384143/'); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
+        curl_setopt($ch, CURLOPT_HEADER, 0); 
+        $data = curl_exec($ch); 
+        curl_close($ch); 
+        echo $data; 
 
 
         $ncampos1= array ($_POST["campos"]);

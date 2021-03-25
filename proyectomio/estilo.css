@@ -1,0 +1,90 @@
+#imagen{
+    
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+   
+      
+}
+#opciones-iniciales{
+    position: absolute;
+    top: 10%;
+
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.inicio{
+    display:inline-block;
+    width: 25%;
+    height: 10%;
+    outline: none;
+    border-radius: 5px;
+    font-family: arial;   
+}
+.inicio:hover{
+    background-color: #0089b7;
+    font-weight: bold;
+    font-size: 20px;
+}
+#resultados{
+    position: absolute;
+    top: 1%;
+    left: 25%;
+    right: 1%;
+    width: 72%;
+    height: 50%;
+    padding-left: 1%;
+}
+#menu{
+    position: absolute;
+    top: 55%;
+    left: 25%;
+    right: 1%;
+    width: 23%;
+    height: 43%; 
+}
+#adicional-uno{
+    position: absolute;
+    top: 55%;
+    left: 49%;
+    right: 1%;
+    width: 19%;
+    height: 43%; 
+}
+#adicional-dos{
+    position: absolute;
+    top: 55%;
+    left: 69%;
+    right: 1%;
+    width: 28%;
+    height: 43%;
+}
+#adicional-dos.td{
+    padding-top: 1%;
+}
+.boton-menu{
+    width: 100%;
+}
+.largo{
+    width: 100%;
+}
+td{
+    padding-top: 4%;
+}
+#contenedores{
+    font-size: 20px;
+}
+div-adicionales{
+    width: 28%;
+    border: 1px solid black;
+}
+.td-adicional-dos{
+    padding-top: 1%;
+}
+a{
+    text-decoration: none;
+}
+a:visited{
+    color: blue;
+}
