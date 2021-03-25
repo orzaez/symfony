@@ -15,7 +15,7 @@
     text-align: center;
 }
 .inicio{
-    display:inline-block;
+    display:block;
     width: 25%;
     height: 10%;
     outline: none;
