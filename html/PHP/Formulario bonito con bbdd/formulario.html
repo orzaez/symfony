@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <title>mostrar datos</title>
+    </head>
+    <style>
+        body{
+            background-color:#92609c ;
+        }
+        table{
+            border: 5px, solid black;
+            border-collapse: collapse;
+            width: 50%;
+	        height: 300px;
+            margin-left: 0%;
+        }
+        .titulo{
+            text-align:right;
+            font-weight: bold;
+        }
+        td {
+            vertical-align: text-top; 
+            text-align: right;
+            font-size: 20px;
+        
+        }
+        .button{
+            background-color: rgb(125, 212, 24);
+            padding: 25px 50px;
+            border-radius: 8px;
+            transition-duration: 0.6s;
+        }
+        .button:hover{
+            background-color: rgb(255, 255, 255);
+            padding: 25px 50px;
+            border-radius: 8px;
+            
+        }
+        
+    </style>
+    <body>
+        <div>
+            <form name="consulta1" method="POST" action="formulario.php">
+                <table>
+                    <tr>
+                        <td class="titulo"> Formulario</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Tabla 
+                            <td>
+                                <input type="text" name="tabla"><br><br>
+                            </td>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Campos
+                            <td>
+                                <input type="text" name="campos"><br><br>
+                            </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Filtro
+                            <td>
+                                <input type="text" name="filtro"><br><br>
+                            </td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Frecuencia con la quieres que se coloree los registros
+                            <td>
+                                <input type="text" name="frecuencia"><br><br>
+                            </td>
+                        </td>
+                    </tr>
+                    <td>
+                            <input type="submit" class="button" value="Aceptar">
+                        
+                    </td> 
+                </table>
+            </form>
+        </div>
+    </body>
+</html>

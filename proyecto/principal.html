@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="estilo.css">
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="funciones.js"></script>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    </head>
+    <body id="body">
+        <div id="opciones-iniciales">
+            <img src="imagenes/docker.png" id="logo">
+            <button class="boton-inicial" onclick="inicio_imagenes();"><i style='font-size:15px' class='fas'>IMÁGENES &#xf0c5;</i></button><br>
+            <button class="boton-inicial" onclick="inicio_contenedores();"><i style='font-size:15px' class='fas'>CONTENEDORES &#xf1b3;</i></button>
+        </div>
+        <div id="resultados"></div>
+        <div id="menu"></div>
+        <div id="adicional-uno"></div>
+        <div id="adicional-dos"></div>
+    </body>
+</html>
+
+docker run -d \	-v /tmp/.X11-unix:/tmp/.X11-unix \ -e DISPLAY=unix$DISPLAY \ --privileged \ --name virtualbox \ jess/virtualbox
