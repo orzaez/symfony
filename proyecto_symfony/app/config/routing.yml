@@ -1,8 +1,0 @@
-test:
-    resource: "@TestBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
-app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
