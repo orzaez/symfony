@@ -1,0 +1,18 @@
+.title {
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+}
+body {
+    background-color: rgb(135, 222, 208);
+}
+table {
+color: rgb(0, 0, 0);
+border-collapse: collapse;
+width: 99vw;
+height: 30vh;
+text-align: center;
+}
+th{
+    background-color: tomato;
+}

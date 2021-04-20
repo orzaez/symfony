@@ -1,0 +1,33 @@
+test_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: TestBundle:Default:index }
+
+test_user:
+    path:     /user/index
+    defaults: { _controller: TestBundle:User:index }
+
+
+test_articles:
+    path:     /user/articles/{articulo}
+    defaults: { _controller: TestBundle:User:articles }
+
+test_entity:
+    path:     /user/entity
+    defaults: { _controller: TestBundle:Entity:entity }
+
+test_view:
+    path:     /user/view/{id}
+    defaults: { _controller: TestBundle:Entity:view }    
+
+
+test_twig:
+    path:     /user/twig
+    defaults: { _controller: TestBundle:Entity:twig }    
+
+test_add:
+    path:     /user/add
+    defaults: { _controller: TestBundle:Entity:add }    
+
+test_create:
+    path:     /user/create
+    defaults: { _controller: TestBundle:Entity:create }    

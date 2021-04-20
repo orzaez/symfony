@@ -1,0 +1,29 @@
+
+.main-block {
+    max-width: 340px; 
+    min-height: 520px; 
+    padding: 40px 10px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 5px; 
+    border: solid 1px #ccc;
+    box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+    background: #ebebeb; 
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
+    }
+.field {
+        display: flex;
+        justify-content:flex-end;
+        padding: 5px 10px;
+    }
+.role{
+    display: flex;
+    flex-wrap: nowrap;
+    
+}
+.admin{
+    display: flex;
+    justify-content: center;
+}

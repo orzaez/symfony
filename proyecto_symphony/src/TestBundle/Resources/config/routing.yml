@@ -1,8 +1,0 @@
-test_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: TestBundle:Default:index }
-
-test_user:
-    path:     /user/index
-    defaults: { _controller: TestBundle:User:index }
-
