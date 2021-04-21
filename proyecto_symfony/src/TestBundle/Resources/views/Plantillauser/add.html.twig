@@ -5,83 +5,86 @@
 {% endblock header %}
 
 {% block body %}
-
-<div class="main-block">
-    <div id="message"></div>
-        <div>
+<div class="body">
+    <div class="main-block">
+        <div class="title">
             <h3>Sing Up</h3>
         </div>
-            <div class="form-group">
-                <form id="form">
-                    <hr>
-                    <div class="col-sm-12">
-                        <div>
-                            <input name="username" type="text" class="field" placeholder="Username"><br>
-                            <input name="first_name" type="text" class="field" placeholder="First Name"><br>
-                            <input name="last_name" type="text" class="field" placeholder="Last Name"><br>
-                            <input name="email" type="text" class="field" placeholder="Email"><br>
-                            <input name="password" type="password" class="field" placeholder="Password">
-                        </div>
-                        <hr>
-                        <div class="col-sm-6">
-                                <input value="ADMIN" type="radio" id="admin" name="role" checked>
-                                <label for="admin">Administrador</label>
-                        </div>
-                        <div class="col-sm-6">
-                                <input value="user" type="radio" id="user" name="role" checked>
-                                <label for="user">Usuario</label>
-                        </div>
-                        <hr>
-                            <div id="btn" class="btn-lg btn-block btn-primary text-center" type="submit">Aceptar</div>
-                        </form>
-                      </div>
-                    </div>
-                </form>
+        <div class="form-group">
+        <form id="form">
+            <hr>
+            <div class="col-sm-12">
+                <div>
+                    <input name="username" type="text" class="field" placeholder="Username"><br>
+                    <input name="first_name" type="text" class="field" placeholder="First Name"><br>
+                    <input name="last_name" type="text" class="field" placeholder="Last Name"><br>
+                    <input name="email" type="text" class="field" placeholder="Email"><br>
+                    <input name="password" type="password" class="field" placeholder="Password">
+                </div>
+                <hr class="circulo">
+                <div class="col-sm-6 circulo">
+                    <input value="ADMIN" type="radio" id="admin" name="role" checked>
+                    <label for="admin">Administrador</label>
+                </div>
+                <div class="col-sm-6 circulo">
+                    <input value="user" type="radio" id="user" name="role" checked>
+                    <label for="user">Usuario</label>
+                </div>
+                <hr>
+                <div id="btn" class="btn-lg btn-block btn-primary text-center" type="submit">Aceptar</div>
+    
+        </form>
         </div>
     </div>
 </div>
 {% endblock body %}
 {% block javascripts %}
-    {{ parent() }}
-         <script>
-            $(document).ready(function () {
-                $("#btn").on("click", function () {
-                    var emptybox;
+{{ parent() }}
+<script>
+    $(document).ready(function () {
+        $("#btn").on("click", function () {
+            var emptybox;
 
-                    $("#form input").each(function () {
-                        console.log($(this).attr("id"));
-                        if ($(this).val() == "") {
-                            emptybox = true;
-                        }
-                    })
-                    if (emptybox) {
-                        alert("Rellene todos los campos");
-                    } else {
-                        createUserAjax();
-                    }
-                });
-
-                function createUserAjax() {
-                    $.ajax({
-                        url: "{{ path('test_create') }}",
-                        data: {
-                            'inputs': $('#form').serializeArray()
-                        },
-                        type: 'POST',
-                        dataType: 'JSON',
-                        success: function (data) {
-                            $("#message").empty();
-                            $("#message").append(data.html);
-                            $("#message").show().delay(4000).fadeOut();
-                        },
-                        error: function () {
-                            $("#message").empty();
-                            $("#message").append(data.html);
-                            $("#message").show().delay(4000).fadeOut();
-                        },
-                    });
+            $("#form input").each(function () {
+                console.log($(this).attr("id"));
+                if ($(this).val() == "") {
+                    emptybox = true;
                 }
+            })
+            if (emptybox) {
+                alert("Rellene todos los campos");
+            } else {
+                createUserAjax();
+            }
+        });
+
+        function createUserAjax() {
+            $.ajax({
+                url: "{{ path('test_create') }}",
+                data: {
+                    'inputs': $('#form').serializeArray()
+                },
+                type: 'POST',
+                dataType: 'JSON',
+                success: function (data) {
+                    Swal.fire(
+                        '!Buen trabajo!',
+                        'El usuario se ha creado correctamente',
+                        'success')
+                    /* $("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut(); */
+                },
+                error: function () {
+                    $("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut();
+                },
             });
-        </script>
+        }
+
+       
+    });
+</script>
 
 {% endblock %}
