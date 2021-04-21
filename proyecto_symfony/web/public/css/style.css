@@ -4,14 +4,17 @@
     justify-content: center;
 }
 body {
-    background-color: rgb(135, 222, 208);
+    background-image: url(hojas_background.jpg) ;
+    color: white;
 }
-table {
-color: rgb(0, 0, 0);
+.table {
+    font-size: 20px;
+color: white;
 border-collapse: collapse;
-width: 99vw;
-height: 30vh;
+/* width: 99vw;
+height: 30vh; */
 text-align: center;
+--bs-table-striped-color: #ffffff;
 }
 th{
     background-color: tomato;

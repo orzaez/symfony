@@ -1,15 +1,16 @@
 {% extends 'layout.html.twig' %}
 {% block body %}
     {{ parent() }}
-    <div class="col-sm-12 flex-wrap"> 
+    <div class="container-fluid"> 
         <div class="col-md-12">
             <div class="title">
                 <h2>Users list</h2>
             </div>
-            <div class="table-responsive">
+            <div class="table-responsive table">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Username</th>
                             <th>First name</th>
                             <th>Last name</th>
@@ -20,7 +21,7 @@
                             <th>Created</th>
                             <th>Updated</th>
                             <th>Actions</th>
-                            <th>ID</th>
+                            
                         </tr>
                     </thead>    
                     <tbody>
@@ -36,7 +37,7 @@
                             <td>
                                 {% if usu.role == 'ADMIN' %}
                                     <strong>Administrator</strong>
-                                {% elseif usu.role == 'USER' %}
+                                {% elseif usu.role == 'user' %}
                                     <strong>Usuario_basico</strong>
                                 {% endif %}
                             </td>
@@ -47,7 +48,7 @@
                             <td>
                                 <a href="#" class="btn btn-sm btn-info">View</a>
                                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="#" class="btn btn-danger btn-delete">Delete</a>
+                                <a data-id="{{ usu.id }}" id="delete" href="#" class="btn btn-danger btn-delete">Delete</a>
                             </td>
                         </tr>
                     </tbody>
@@ -57,3 +58,55 @@
         </div>
     </div>
 {% endblock body %}
+{% block javascripts  %}
+{{ parent() }}
+
+<script>
+    $(document).ready(function () {
+        $(".btn-delete").on("click", function () {
+            var id=$(this).data("id");
+            console.log(id);
+            deleteuserAjax(id);
+        });
+
+        function deleteuserAjax(id){
+            $.ajax({
+                url: "{{ path('test_delete') }}",
+                data: {
+                    id:id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    console.log("success");
+                    console.log (data);
+                    if (data.status){
+                        Swal.fire(
+                        '!Bien hecho',
+                        'El usuario se ha borrado correctamente',
+                        'success')
+                        location.reload();
+                    }
+                    else{
+                        alert("error");
+                        alert(data.msg);
+                    }
+
+                    /*$("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut();
+                    */
+                },
+
+                error: function (error) {
+                    console.log("error");
+                    console.log (error);
+                    /*$("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut();*/
+                },
+            });
+        }
+    });
+</script>
+{% endblock javascripts %}

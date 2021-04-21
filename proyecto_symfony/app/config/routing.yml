@@ -31,3 +31,7 @@ test_add:
 test_create:
     path:     /user/create
     defaults: { _controller: TestBundle:Entity:create }    
+
+test_delete:
+    path:     /user/delete
+    defaults: { _controller: TestBundle:Entity:delete }    

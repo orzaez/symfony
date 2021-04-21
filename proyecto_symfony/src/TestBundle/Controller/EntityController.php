@@ -37,20 +37,17 @@ class EntityController extends Controller
     //     return new Response($res);
     // }
 
-    public function articlesAction($articulo)
-    {
+    public function articlesAction($articulo){
         return new Response('Articulo numero ' . $articulo);
     }
 
-    public function viewAction($id)
-    {
+    public function viewAction($id){
         $repository = $this->getDoctrine()->getRepository('TestBundle:usu');
         $user = $repository->find($id);
         return new Response('Usuario: ' .$user->getUsername() . 'con email: ' . $user->getEmail());
 
     }
-    public function twigAction()
-    {
+    public function twigAction(){
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('TestBundle:usu')->findAll();
         // // $usersfav = $em->getRepository('TestBundle:usu')->findAll();
@@ -63,15 +60,13 @@ class EntityController extends Controller
         return $this->render('TestBundle:Plantillauser:index.html.twig', array('users' => $users));
     }
 
-    public function addAction()
-    {
+    public function addAction() {
         $em = $this->getDoctrine()->getManager();
         return $this->render('TestBundle:Plantillauser:add.html.twig');
 
     }
 
-    public function createAction(Request $request)
-    {
+    public function createAction(Request $request){
         $result = array(
             'status'    => 'error',
             'code'      => '404',
@@ -138,6 +133,31 @@ class EntityController extends Controller
         }
         $result["html"] = $html;
         return new JsonResponse($result);
+    }
+    public function deleteAction (Request $request)
+    {
+           
+        $id=$request->get('id');
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository("TestBundle:usu")->find($id);
+            if (!is_null($user)){
+                $em->remove($user);
+                $em->flush();
+
+                $response=["status"=>true, "msg"=>"Borrado ".$id];
+                return new JsonResponse($response);
+            }
+            else{
+                $response=["status"=>false, "msg"=>"No hemos encontado el user con id: ".$id];
+                return new JsonResponse($response);       
+            }
+        } catch (\Exception $e) {
+                $response=["status"=>false, "msg"=>"Error: ".$e->getMessage()];
+                return new JsonResponse($response); 
+        } 
+
+        
     }
 }
 
