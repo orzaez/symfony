@@ -1,32 +1,32 @@
-{% extends 'layout.html.twig' %}
+{% extends 'layout_viewuser.html.twig' %}
 {% block body %}
-    {{ parent() }}
-    <div class="container-fluid"> 
-        <div class="col-md-12">
-            <div class="title">
-                <h2>Users list</h2>
-            </div>
-            <div class="table-responsive table">
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>First name</th>
-                            <th>Last name</th>
-                            <th>Email</th>
-                            <th>password</th>
-                            <th>Role</th>
-                            <th>Is_active</th>
-                            <th>Created</th>
-                            <th>Updated</th>
-                            <th>Actions</th>
-                            
-                        </tr>
-                    </thead>    
-                    <tbody>
-                    {% for usu in users  %}
+{{ parent() }}
+<div class="container-fluid"> 
+    <div class="col-md-12">
+        <div class="title">
+            <h2>Users list</h2>
+        </div>
+        <div class="table-responsive table">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
+                        <th>password</th>
+                        <th>Role</th>
+                        <th>Is_active</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                        <th>Actions</th>
+                        
+                    </tr>
+                </thead>    
+                <tbody>
+                    {% for usu in users  %}
+                        <tr>
                             <td>{{ usu.id }}</td>
                             <td>{{ usu.username }}</td>
                             <td>{{ usu.getFirstName()}}</td>
@@ -41,22 +41,22 @@
                                     <strong>Usuario_basico</strong>
                                 {% endif %}
                             </td>
-                           
+                        
                             <td>{{ usu.getIsActive() }}</td>
                             <td>{{ usu.getCreatedAt()|date("d-m-y H:i") }}</td>
                             <td>{{ usu.getUpdatedAt()|date("d-m-y H:i") }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-info">View</a>
+                                <a href="#" class="btn btn-sm btn-info">Tareas</a>
                                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                 <a data-id="{{ usu.id }}" id="delete" href="#" class="btn btn-danger btn-delete">Delete</a>
                             </td>
                         </tr>
-                    </tbody>
                     {% endfor %}
-                </table>
-            </div>
+                </tbody>    
+            </table>
         </div>
     </div>
+</div>
 {% endblock body %}
 {% block javascripts  %}
 {{ parent() }}
@@ -81,11 +81,34 @@
                     console.log("success");
                     console.log (data);
                     if (data.status){
-                        Swal.fire(
-                        '!Bien hecho',
-                        'El usuario se ha borrado correctamente',
-                        'success')
-                        location.reload();
+                        const swalWithBootstrapButtons = Swal.mixin({
+                            customClass: {
+                              confirmButton: 'btn btn-success',
+                              cancelButton: 'btn btn-danger'
+                            },
+                            buttonsStyling: false
+                          })
+                          swalWithBootstrapButtons.fire({
+                            title: '¿Quiere eliminar el usuario?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: `Eliminar`,
+                            cancelButtonText: 'No, cancel!',
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                              Swal.fire({
+                                  position: 'center',
+                                  icon: 'success',
+                                  title: 'Usuario eliminado correctamente.',
+                                  showConfirmButton: false,
+                                  timer: 2000
+                                })
+                            } else if (result.isDenied) {
+                              Swal.fire('Este usuario sigue vivo', '', 'info')
+                            }
+                          })
+                        
                     }
                     else{
                         alert("error");

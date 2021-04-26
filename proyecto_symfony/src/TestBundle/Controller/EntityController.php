@@ -1,7 +1,7 @@
 <?php
 
 namespace TestBundle\Controller;
-
+use TestBundle\Entity\Task;
 use Proxies\__CG__\TestBundle\Entity\usu;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,8 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 //     }
 // }
 
-class EntityController extends Controller
-{
+class EntityController extends Controller{
    
     // public function entityAction()
     // {
@@ -47,7 +46,7 @@ class EntityController extends Controller
         return new Response('Usuario: ' .$user->getUsername() . 'con email: ' . $user->getEmail());
 
     }
-    public function twigAction(){
+    public function consultAction(){
         $em = $this->getDoctrine()->getManager();
         $users = $em->getRepository('TestBundle:usu')->findAll();
         // // $usersfav = $em->getRepository('TestBundle:usu')->findAll();
@@ -134,8 +133,7 @@ class EntityController extends Controller
         $result["html"] = $html;
         return new JsonResponse($result);
     }
-    public function deleteAction (Request $request)
-    {
+    public function deleteAction (Request $request){
            
         $id=$request->get('id');
         try {
@@ -158,6 +156,80 @@ class EntityController extends Controller
         } 
 
         
+    }
+
+
+    public function createtaskAction (Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('TestBundle:usu')->findAll();
+        return $this->render('TestBundle:Task:createtask.html.twig', array('users' => $users));
+    }
+
+    public function addtaskAction (Request $request){
+        $result = array(
+            'status'    => 'error',
+             'code'      => '404',
+            'message'   => 'Error al realizar la funcion'
+        );
+            $html = "";
+            $session = $this->get('session');
+            $name = $request->get('name');
+            $comment =  $request->get('coment');
+            $username = $request->get('username');
+
+            if ($name == "" || $comment == "" ){
+                return new JsonResponse($result);
+            }
+            
+            if(!$request->isXmlHttpRequest()) {
+                $result["message"] = "Error al obtener mÃ©todo.";
+                return new JsonResponse($result);
+            }
+
+            try {
+               
+                $task = new Task();
+                $em = $this->getDoctrine()->getManager();
+                
+
+                $task->setName($name);
+                $task->setDescription($comment);
+                $task->setName($name);
+                $task->setUsername($username);
+                $task->setCreatedAt(new \DateTime());
+                $task->setUpdatedAt(new \DateTime());
+                $em->persist($task);
+                $em->flush();
+
+                $result["status"] = "success";
+                $result["code"] = "200";
+                $result["message"] = "Usuario creado con exito.";
+                $session->getFlashBag()->add('notice', 'Usuario creado correctamente.');
+            }
+            catch(\Exception $e) {
+                $result["message"] = "no se ha podido crear el task. Error: " . $e->getMessage();
+                $session->getFlashBag()->add('error', 'Error.');
+                return new JsonResponse($result);
+            }
+
+            foreach ($session->getFlashBag()->get('notice', []) as $message) {
+                $html .= '<div class="alert alert-success">'.$message.'</div>';
+            }
+            
+            // display errors
+            foreach ($session->getFlashBag()->get('error',[]) as $message) {
+                $html .=  '<div class="alert alert-danger">'.$message.'</div>';
+            }
+            $result["html"] = $html;
+            return new JsonResponse($result);
+    }
+    
+    public function viewtaskAction (){
+        $em = $this->getDoctrine()->getManager();
+        $tasks = $em->getRepository('TestBundle:Task')->findAll();
+        return $this->render('TestBundle:Task:viewtask.html.twig' , array ('tasks' => $tasks));
+
     }
 }
 

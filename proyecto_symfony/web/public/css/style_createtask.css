@@ -1,0 +1,32 @@
+.body{
+    height: 100%;
+    width: 100%;
+}
+.main-block {
+    background-image: url(Images/background_green_createtask.jpg) ;
+    max-width: 400px; 
+    min-height: 600px; 
+    padding: 40px 10px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 5px; 
+    border: solid 1px #ccc;
+    box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
+    /* background: #ebebeb;  */
+    /* display: flex;
+    justify-content:start;
+    flex-wrap: wrap;
+    color: white; */
+    }
+.tittle{
+    display: flex;
+    justify-content:center;
+    flex-wrap:nowrap;
+    color: white;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    
+}

@@ -1,0 +1,74 @@
+{% extends 'layout_createtask.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    <div class="main-block">
+        <div class="tittle">
+            <h2>Crear tarea</h2>
+        </div>
+            <form id="form" class="form">
+                <input name="name" type="text" class="field" placeholder="Titulo"><br>
+                <select name="username" type="text" class="field" placeholder="Usuario">
+                    <option selected value="" disabled>--- Usuario ---</option>
+                    {% for user in users %}
+                        {# <option value="{{user.username}}">{{user.name}}</option>#}
+                        <option value="{{user.getId()}}">{{user.getUsername()}}</option>
+                    {% endfor %}
+                </select>
+                <br>              
+                <textarea name="coment" rows="10" class="field" cols="30"></textarea>
+            </form>            
+            <div>
+                <button type="button"  class="btn btn-success btn-sm ">Guardar</button>
+            </div>           
+        </div>
+        
+    </div>
+    
+{% endblock body %}
+{% block javascripts  %}
+{{ parent() }}
+<script>
+    $(document).ready(function () {
+        $(".btn").on("click", function () {
+            var emptybox;
+
+            $(".field").each(function () {
+                if ($(this).val() == "") {
+                    emptybox = true;
+                }
+            })
+            if (emptybox == true) {
+                alert("Rellene todos los campos");
+            } else {
+                createtaskAjax();
+            }
+            
+        });
+        
+        function createtaskAjax(){
+            $.ajax({
+                url: "{{ path('test_addtask') }}",
+                data: 
+                    $('#form').serializeArray(),
+                type: 'POST',
+                dataType: 'JSON',
+                success: function (data) {
+                    Swal.fire(
+                        '!Buen trabajo!',
+                        'El usuario se ha creado correctamente',
+                        'success')
+                    /* $("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut(); */
+                },
+                error: function () {
+                    $("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut();
+                },
+            });
+        }
+    });
+
+</script>
+{% endblock  %}

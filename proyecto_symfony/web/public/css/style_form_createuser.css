@@ -1,10 +1,9 @@
 .body{
-    background-color: violet;
     height: 100%;
     width: 100%;
 }
 .main-block {
-    background-image: url(background_body.jpg) ;
+    background-image: url(Images/background_body.jpg) ;
     max-width: 350px; 
     min-height: 520px; 
     padding: 40px 10px;

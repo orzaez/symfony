@@ -3,7 +3,7 @@ test_homepage:
     defaults: { _controller: TestBundle:Default:index }
 
 test_user:
-    path:     /user/index
+    path:     /user/index.php
     defaults: { _controller: TestBundle:User:index }
 
 
@@ -21,8 +21,8 @@ test_view:
 
 
 test_twig:
-    path:     /user/twig
-    defaults: { _controller: TestBundle:Entity:twig }    
+    path:     /user/consult
+    defaults: { _controller: TestBundle:Entity:consult }    
 
 test_add:
     path:     /user/add
@@ -34,4 +34,17 @@ test_create:
 
 test_delete:
     path:     /user/delete
-    defaults: { _controller: TestBundle:Entity:delete }    
+    defaults: { _controller: TestBundle:Entity:delete } 
+
+test_viewtask:
+    path:     /task/tasks
+    defaults: { _controller: TestBundle:Entity:viewtask }
+
+test_createtask:
+    path:     /task/createtask
+    defaults: { _controller: TestBundle:Entity:createtask }
+    
+test_addtask:
+    path:     /task/addtask
+    defaults: { _controller: TestBundle:Entity:addtask }
+    
