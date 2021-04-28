@@ -24,8 +24,8 @@
                             <tr>
                                 <td>{{ task.id }}</td>
                                 <td>{{ task.name }}</td>
-                                <td>{{ task.username }}</td>
                                 <td>{{ task.description}}</td>
+                                <td>{{ task.username }}</td>
                                 <td>{{ task.getCreatedAt()|date("d-m-y H:i") }}</td>
                                 <td>{{ task.getUpdatedAt()|date("d-m-y H:i") }}</td>
                                 <td>
@@ -40,10 +40,78 @@
             </div>
         </div>
     </div>
-    {% endblock body %}
+{% endblock body %}
 {% block javascripts  %}
 {{ parent() }}
 <script>
-    
+    $(document).ready(function () {
+        $(".btn-delete").on("click", function () {
+            var id=$(this).data("id");
+            console.log(id);
+            deletetaskAjax(id);
+        });
+
+        function deletetaskAjax(id){
+            $.ajax({
+                url: "{{ path('test_deletetask') }}",
+                data: {
+                    id:id
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    console.log("success");
+                    console.log (data);
+                    if (data.status){
+                        const swalWithBootstrapButtons = Swal.mixin({
+                            customClass: {
+                              confirmButton: 'btn btn-success',
+                              cancelButton: 'btn btn-danger'
+                            },
+                            buttonsStyling: false
+                          })
+                          swalWithBootstrapButtons.fire({
+                            title: '¿Quiere eliminar el usuario?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: `Eliminar`,
+                            cancelButtonText: 'No, cancel!',
+                          }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                              Swal.fire({
+                                  position: 'center',
+                                  icon: 'success',
+                                  title: 'Usuario eliminado correctamente.',
+                                  showConfirmButton: false,
+                                  timer: 2000
+                                })
+                            } else if (result.isDenied) {
+                              Swal.fire('Este usuario sigue vivo', '', 'info')
+                            }
+                          })
+                        
+                    }
+                    else{
+                        alert("error");
+                        alert(data.msg);
+                    }
+
+                    /*$("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut();
+                    */
+                },
+
+                error: function (error) {
+                    console.log("error");
+                    console.log (error);
+                    /*$("#message").empty();
+                    $("#message").append(data.html);
+                    $("#message").show().delay(4000).fadeOut();*/
+                },
+            });
+        }
+    });
 </script>
 {% endblock javascripts %}

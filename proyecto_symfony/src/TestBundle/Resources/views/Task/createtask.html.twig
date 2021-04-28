@@ -10,7 +10,7 @@
                 <select name="username" type="text" class="field" placeholder="Usuario">
                     <option selected value="" disabled>--- Usuario ---</option>
                     {% for user in users %}
-                        {# <option value="{{user.username}}">{{user.name}}</option>#}
+                        <option value="{{user.username}}">{{user.username}}</option>
                         <option value="{{user.getId()}}">{{user.getUsername()}}</option>
                     {% endfor %}
                 </select>

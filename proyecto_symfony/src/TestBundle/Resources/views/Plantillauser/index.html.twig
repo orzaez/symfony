@@ -25,30 +25,30 @@
                     </tr>
                 </thead>    
                 <tbody>
-                    {% for usu in users  %}
+                    {% for User in users  %}
                         <tr>
-                            <td>{{ usu.id }}</td>
-                            <td>{{ usu.username }}</td>
-                            <td>{{ usu.getFirstName()}}</td>
-                            <td>{{ usu.lastname }}</td>
-                            <td>{{ usu.email }}</td>
-                            <td>{{ usu.password }}</td>
-                            <!-- <td>{{ usu.role }}</td> -->
+                            <td>{{ User.id }}</td>
+                            <td>{{ User.username }}</td>
+                            <td>{{ User.getFirstName()}}</td>
+                            <td>{{ User.lastname }}</td>
+                            <td>{{ User.email }}</td>
+                            <td>{{ User.password }}</td>
+                            <!-- <td>{{ User.role }}</td> -->
                             <td>
-                                {% if usu.role == 'ADMIN' %}
+                                {% if User.role == 'ADMIN' %}
                                     <strong>Administrator</strong>
-                                {% elseif usu.role == 'user' %}
+                                {% elseif User.role == 'user' %}
                                     <strong>Usuario_basico</strong>
                                 {% endif %}
                             </td>
                         
-                            <td>{{ usu.getIsActive() }}</td>
-                            <td>{{ usu.getCreatedAt()|date("d-m-y H:i") }}</td>
-                            <td>{{ usu.getUpdatedAt()|date("d-m-y H:i") }}</td>
+                            <td>{{ User.getIsActive() }}</td>
+                            <td>{{ User.getCreatedAt()|date("d-m-y H:i") }}</td>
+                            <td>{{ User.getUpdatedAt()|date("d-m-y H:i") }}</td>
                             <td>
                                 <a href="#" class="btn btn-sm btn-info">Tareas</a>
                                 <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                <a data-id="{{ usu.id }}" id="delete" href="#" class="btn btn-danger btn-delete">Delete</a>
+                                <a data-id="{{ User.id }}" id="delete" href="#" class="btn btn-danger btn-delete">Delete</a>
                             </td>
                         </tr>
                     {% endfor %}

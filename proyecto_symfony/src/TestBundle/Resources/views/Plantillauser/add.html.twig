@@ -61,9 +61,8 @@
         function createUserAjax() {
             $.ajax({
                 url: "{{ path('test_create') }}",
-                data: {
-                    'inputs': $('#form').serializeArray()
-                },
+                data:
+                   $('#form').serialize(),
                 type: 'POST',
                 dataType: 'JSON',
                 success: function (data) {

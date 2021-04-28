@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * usu
+ * User
  *
- * @ORM\Table(name="usu")
- * @ORM\Entity(repositoryClass="TestBundle\Repository\usuRepository")
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="TestBundle\Repository\UserRepository")
  */
-class usu
+class User implements UserInterface
 {
     /**
      * @var int
@@ -25,28 +25,28 @@ class usu
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=50)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", length=100)
+     * @ORM\Column(name="first_name", type="string", length=255)
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="last_name", type="string", length=100)
+     * @ORM\Column(name="last_name", type="string", length=255)
      */
     private $lastName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=100)
+     * @ORM\Column(name="email", type="string", length=255, unique=true)
      */
     private $email;
 
@@ -60,7 +60,7 @@ class usu
     /**
      * @var string
      *
-     * @ORM\Column(name="role", type="string", length=50)
+     * @ORM\Column(name="role", type="string", length=255)
      */
     private $role;
 
@@ -85,6 +85,8 @@ class usu
      */
     private $updatedAt;
 
+   
+
 
     /**
      * Get id
@@ -101,7 +103,7 @@ class usu
      *
      * @param string $username
      *
-     * @return usu
+     * @return User
      */
     public function setUsername($username)
     {
@@ -117,7 +119,7 @@ class usu
      */
     public function getUsername()
     {
-        return '@'.$this->username;
+        return $this->username;
     }
 
     /**
@@ -125,7 +127,7 @@ class usu
      *
      * @param string $firstName
      *
-     * @return usu
+     * @return User
      */
     public function setFirstName($firstName)
     {
@@ -149,7 +151,7 @@ class usu
      *
      * @param string $lastName
      *
-     * @return usu
+     * @return User
      */
     public function setLastName($lastName)
     {
@@ -173,7 +175,7 @@ class usu
      *
      * @param string $email
      *
-     * @return usu
+     * @return User
      */
     public function setEmail($email)
     {
@@ -197,7 +199,7 @@ class usu
      *
      * @param string $password
      *
-     * @return usu
+     * @return User
      */
     public function setPassword($password)
     {
@@ -221,7 +223,7 @@ class usu
      *
      * @param string $role
      *
-     * @return usu
+     * @return User
      */
     public function setRole($role)
     {
@@ -245,7 +247,7 @@ class usu
      *
      * @param boolean $isActive
      *
-     * @return usu
+     * @return User
      */
     public function setIsActive($isActive)
     {
@@ -269,7 +271,7 @@ class usu
      *
      * @param \DateTime $createdAt
      *
-     * @return usu
+     * @return User
      */
     public function setCreatedAt($createdAt)
     {
@@ -293,7 +295,7 @@ class usu
      *
      * @param \DateTime $updatedAt
      *
-     * @return usu
+     * @return User
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -311,5 +313,17 @@ class usu
     {
         return $this->updatedAt;
     }
+    public function getRoles() {
+        return array($this->getRole());
+    }
+    public function getSalt()
+    {
+        
+    }
+    public function eraseCredentials()
+    {
+        return false;
+    }
+  
 }
 

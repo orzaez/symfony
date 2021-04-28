@@ -4,12 +4,8 @@ test_homepage:
 
 test_user:
     path:     /user/index.php
-    defaults: { _controller: TestBundle:User:index }
+    defaults: { _controller: TestBundle:User:public }
 
-
-test_articles:
-    path:     /user/articles/{articulo}
-    defaults: { _controller: TestBundle:User:articles }
 
 test_entity:
     path:     /user/entity
@@ -48,3 +44,6 @@ test_addtask:
     path:     /task/addtask
     defaults: { _controller: TestBundle:Entity:addtask }
     
+test_deletetask:
+    path:     /user/deletetask
+    defaults: { _controller: TestBundle:Entity:deletetask } 
