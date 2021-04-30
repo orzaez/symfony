@@ -2,7 +2,9 @@
 
 namespace TestBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -11,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="TestBundle\Repository\UserRepository")
  */
-class User implements UserInterface
+class User implements AdvancedUserInterface, \Serializable
 {
     /**
      * @var int
@@ -85,7 +87,11 @@ class User implements UserInterface
      */
     private $updatedAt;
 
-   
+    public function __construct()
+    {
+        $this->task = new ArrayCollection();  
+        $this->isActive = true;
+    }
 
 
     /**
@@ -309,21 +315,52 @@ class User implements UserInterface
      *
      * @return \DateTime
      */
-    public function getUpdatedAt()
-    {
+    public function getUpdatedAt(){
         return $this->updatedAt;
     }
     public function getRoles() {
-        return array($this->getRole());
+        return array($this->role);
     }
-    public function getSalt()
-    {
-        
+    public function getSalt(){
+        return null;
     }
-    public function eraseCredentials()
-    {
+    public function eraseCredentials(){
         return false;
     }
-  
+
+    /** @see \Serializable::serialize() */
+    public function serialize(){
+        return serialize(array(
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->isActive
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized){
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            $this->isActive
+        ) = unserialize($serialized);
+    }
+    public function isAccountNonExpired(){
+        return true;
+    }
+
+    public function isAccountNonLocked(){
+        return true;
+    }
+
+    public function isCredentialsNonExpired(){
+        return true;
+    }
+
+    public function isEnabled(){
+        return $this->isActive;
+    }   
 }
 

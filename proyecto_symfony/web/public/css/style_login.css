@@ -1,0 +1,70 @@
+.main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.form{
+    width: 350px; 
+    min-height: 420px; 
+    padding: 10px;
+    background-color: white;
+    margin-top: 40px;
+    box-shadow: -3px 5px 25px rgba(255, 247, 247, 0.59); 
+    border-radius: 30px;
+
+}
+.title{
+    display: flex;
+    justify-content: ce;
+}
+body{
+    background-size: 90%;
+    background-image: url(Images/elegante.jpg);
+}
+.btn{
+    background-color:blue;
+}
+
+.body{
+    height: 100%;
+    width: 100%;
+}
+.main-block {
+    background-image: url(Images/background_body.jpg) ;
+    max-width: 350px; 
+    min-height: 520px; 
+    padding: 40px 10px;
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 5px; 
+    border: solid 1px #ccc;
+    box-shadow: 1px 2px 5px rgba(70, 53, 53, 0.31); 
+    /* background: #ebebeb;  */
+    display: flex;
+    justify-content:center;
+    flex-wrap: wrap;
+    }
+.field {
+        display: flex;
+        justify-content:flex-end;
+        padding: 5px 10px;
+    }
+.role{
+    display: flex;
+    flex-wrap: nowrap;
+    
+}
+hr:not([size]) {
+    height: 5px;
+    color: white;
+}
+.circulo{
+    color: white;
+}
+.admin{
+    display: flex;
+    justify-content: center;
+}
+.title{
+    color: white;
+}

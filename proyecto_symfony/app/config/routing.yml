@@ -1,20 +1,4 @@
-test_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: TestBundle:Default:index }
-
-test_user:
-    path:     /user/index.php
-    defaults: { _controller: TestBundle:User:public }
-
-
-test_entity:
-    path:     /user/entity
-    defaults: { _controller: TestBundle:Entity:entity }
-
-test_view:
-    path:     /user/view/{id}
-    defaults: { _controller: TestBundle:Entity:view }    
-
+# Users
 
 test_twig:
     path:     /user/consult
@@ -32,6 +16,8 @@ test_delete:
     path:     /user/delete
     defaults: { _controller: TestBundle:Entity:delete } 
 
+# Tasks
+
 test_viewtask:
     path:     /task/tasks
     defaults: { _controller: TestBundle:Entity:viewtask }
@@ -47,3 +33,20 @@ test_addtask:
 test_deletetask:
     path:     /user/deletetask
     defaults: { _controller: TestBundle:Entity:deletetask } 
+
+# Autentication
+
+test_user_homepage:
+    path:     /
+    defaults: { _controller: TestBundle:Entity:home }
+
+test_user_login:
+    path:     /login
+    defaults: { _controller: TestBundle:Security:login }
+
+test_user_login_check:
+    path:     /login_check
+    defaults: { _controller: TestBundle:Security:loginCheck }
+
+test_user_logout:
+    path:     /logout  

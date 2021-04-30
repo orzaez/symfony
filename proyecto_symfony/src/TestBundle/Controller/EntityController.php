@@ -9,20 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 class EntityController extends Controller{
-   
-    public function publicAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('TestBundle:usu')->findAll();
-        // $usersfav = $em->getRepository('TestBundle:usu')->findAll();
-        $res = 'Lista de usuarios: <br />';
-        foreach ($users as $user)
-        {
-            $res .= 'Usuario: ' . $user->getUsername() . '- Email: ' . $user->getEmail() . '<br />';
-        }
-        return new Response($res);
+
+    public function homeAction(){
+        return $this->render('TestBundle:Security:home.html.twig');
+
     }
-    
     
     
     /**
