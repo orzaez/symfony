@@ -1,4 +1,4 @@
-{% extends 'layout_login.html.twig' %}
+{% extends 'layout_home.html.twig' %}
 
 {% block header %}
 {{ parent() }}
@@ -6,16 +6,17 @@
 
 {% block body %}
 	{{ parent() }}
-	<div class="container">
+    <div class="container welcom">
         <h2 class="text-center">
             {{ 'Welcome'|trans }}
             {% if app.user.role == 'ROLE_ADMIN' %}
-                {{ 'Administrator'|trans }}
+            {{ 'Administrator'|trans }}
             {% elseif app.user.role == 'ROLE_USER' %}
-                {{ 'User'|trans }}
+            {{ 'User'|trans }}
             {% endif %}
             :
             {{ app.user.username }}
         </h2>
-	</div>
+        
+    </div>
 {% endblock %}

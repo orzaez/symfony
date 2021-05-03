@@ -44,13 +44,6 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/$, roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/user, roles: ROLE_ADMIN }
-        # - { path: ^/user/add, role: ADMIN }
-        # - { path: ^/user/create, role: ADMIN }
-        # - { path: ^/user/delete, role: ADMIN }
-
-        # - { path: ^/task/tasks, role: ADMIN }
-        # - { path: ^/task/createtask, role: ADMIN }
-        # - { path: ^/task/addtask, role: ADMIN }
-        # - { path: ^/task/view, role: [ADMIN, user] }
-        # - { path: ^/task/delete, role: ADMIN } 
+        - { path: ^/user, roles: [ROLE_ADMIN, ROLE_USER] }
+        - { path: ^/mytask, role: [ROLE_ADMIN, ROLE_USER] }
+        - { path: ^/task/view, role: [ROLE_ADMIN, ROLE_USER]}

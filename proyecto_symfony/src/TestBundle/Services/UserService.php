@@ -89,6 +89,15 @@ class UserService{
             
     }
 
+    /**
+     * Undocumented function
+     *  
+     * @author asdf <asdf>
+     * 
+     * @param array $param
+     * @return void
+     */
+    
     public function createTask (array $param){
         $result = array(
             'status'    => 'error',
@@ -97,17 +106,18 @@ class UserService{
         );
      
         try {
-            
             $task = new Task();
             $em = $this->entityManager;
             $name = $param['name'];
             $comment =  $param['coment'];
-            $username = $param['username'];
+            $userId = $param['user'];
+
+            $user = $em->getRepository("TestBundle:User")->findOneById($userId);
 
             $task->setName($name);
             $task->setDescription($comment);
             $task->setName($name);
-            $task->setUsername($username);
+            $task->setUser($user);
             $task->setCreatedAt(new \DateTime());
             $task->setUpdatedAt(new \DateTime());
             $em->persist($task);

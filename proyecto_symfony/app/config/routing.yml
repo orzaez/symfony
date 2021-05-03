@@ -32,7 +32,11 @@ test_addtask:
     
 test_deletetask:
     path:     /user/deletetask
-    defaults: { _controller: TestBundle:Entity:deletetask } 
+    defaults: { _controller: TestBundle:Entity:deletetask }
+
+test_mytask:
+    path:     /user/mytask
+    defaults: { _controller: TestBundle:Entity:mytask }
 
 # Autentication
 

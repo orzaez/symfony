@@ -10,4 +10,25 @@ namespace TestBundle\Repository;
  */
 class TaskRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findTasks() {
+        $em = $this->getEntityManager();
+        $sqlConnection = $em->getConnection();
+
+        $sql = "SELECT 
+        t.id as id,
+        t.name as name,
+        t.description as description,
+        t.created_At as created_at,
+        t.updated_At as updated_at,
+        t.user_id AS userid
+        FROM user AS u 
+        RIGHT JOIN task AS t ON t.user_id = u.username";
+
+        // Ejecutamos la consulta
+        $qr = $sqlConnection->prepare($sql);
+        $qr->execute();
+        $queryResult = $qr->fetchAll(\PDO::FETCH_ASSOC);
+ 
+        return $queryResult;
+    }
 }

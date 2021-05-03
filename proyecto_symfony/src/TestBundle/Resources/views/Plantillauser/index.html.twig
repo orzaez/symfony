@@ -15,7 +15,7 @@
                         <th>First name</th>
                         <th>Last name</th>
                         <th>Email</th>
-                        <th>password</th>
+                        <th>Password</th>
                         <th>Role</th>
                         <th>Is_active</th>
                         <th>Created</th>
@@ -35,10 +35,10 @@
                             <td>{{ User.password }}</td>
                             <!-- <td>{{ User.role }}</td> -->
                             <td>
-                                {% if User.role == 'ADMIN' %}
+                                {% if User.role == 'ROLE_ADMIN' %}
                                     <strong>Administrator</strong>
-                                {% elseif User.role == 'user' %}
-                                    <strong>Usuario_basico</strong>
+                                {% elseif User.role == 'ROLE_USER' %}
+                                    <strong>Usuario basico</strong>
                                 {% endif %}
                             </td>
                         
@@ -46,8 +46,6 @@
                             <td>{{ User.getCreatedAt()|date("d-m-y H:i") }}</td>
                             <td>{{ User.getUpdatedAt()|date("d-m-y H:i") }}</td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-info">Tareas</a>
-                                <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                 <a data-id="{{ User.id }}" id="delete" href="#" class="btn btn-danger btn-delete">Delete</a>
                             </td>
                         </tr>

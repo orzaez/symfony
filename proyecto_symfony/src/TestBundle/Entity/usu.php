@@ -312,4 +312,3 @@ class usu
         return $this->updatedAt;
     }
 }
-
