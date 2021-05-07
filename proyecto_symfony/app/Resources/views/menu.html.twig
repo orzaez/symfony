@@ -12,20 +12,20 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Usuarios
+              {{'Usuarios'|trans}}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="{{ path('test_twig') }}">Consultar usuarios</a></li>
-              <li><a class="dropdown-item" href="{{ path('test_add') }}">Crear usuario</a></li>
+              <li><a class="dropdown-item" href="{{ path('test_twig') }}">{{'Mostrar usuarios'|trans}}</a></li>
+              <li><a class="dropdown-item" href="{{ path('test_add') }}">{{'Crear usuario'|trans}}</a></li>
             </ul>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Tareas
+              {{'Tareas'|trans}}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="{{ path('test_createtask') }}">Crear tarea</a></li>
-              <li><a class="dropdown-item" href="{{ path('test_viewtask') }}">Ver todas las tareas</a></li>
+              <li><a class="dropdown-item" href="{{ path('test_createtask') }}">{{'Crear tarea'|trans}}</a></li>
+              <li><a class="dropdown-item" href="{{ path('test_viewtask') }}">{{'Ver todas las tareas'|trans}}</a></li>
             </ul>
           </li>
         </ul>
@@ -36,11 +36,7 @@
       </div>
     <a class="navbar-brand" href="{{ path('test_user_homepage') }}">OrzaezPintor</a>
     <div>
-      <a class="dropdown-item" href="{{ path('test_mytask') }}">Mis tareas</a>
+      <a class="dropdown-item" href="{{ path('test_mytask') }}">{{'Ver todas las tareas'|trans}}</a>
     </div>
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
   {% endif %}
 </nav>

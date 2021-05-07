@@ -7,30 +7,18 @@
                 <h2>Task</h2>
             </div>
             <div class="table-responsive table">
-                <table class="table table-striped table-hover">
+                <table id="tasks_table" class="table table-striped table-hover">
                     <thead>
+                        {# <th></th> #}
                         <th>ID</th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Username</th>
-                        <th>Created</th>
-                        <th>Updated</th>
+                        <th>{{'Titulo'|trans}}</th>
+                        <th>{{'Descripción'|trans}}</th>
+                        <th>{{'Creado'|trans}}</th>
+                        <th>{{'Modificado'|trans}}</th>
+                        <th>{{'Usuario'|trans}}</th>
+                        <th>{{'Acciones'|trans}}</th>
                     </tr>
                     </thead> 
-                    <tbody>
-                        <tr>
-                            
-                        {% for task in tasks  %}
-                            <tr>
-                                <td>{{ task.id }}</td>
-                                <td>{{ task.name }}</td>
-                                <td>{{ task.description}}</td>
-                                <td>{{ task.user }}</td>
-                                <td>{{ task.getCreatedAt()|date("d-m-y H:i") }}</td>
-                                <td>{{ task.getUpdatedAt()|date("d-m-y H:i") }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>       
                 </table>
             </div>
         </div>
@@ -40,73 +28,202 @@
 {{ parent() }}
 <script>
     $(document).ready(function () {
+        //Añade filtros a las cabeceras
+        $('#tasks_table thead tr').clone(true).appendTo('#tasks_table thead');
+        $('#tasks_table thead tr:eq(1) th').each( function (i){
+            var title = $(this).text();
+            if (i==6){
+                $(this).html( '' );
+            }else{
+                $(this).html( '<input style="width:50%;" type="text" placeholder="'+title+'" />' );
+            }
+            $('input', this ).on( 'keyup change', function () {
+                if ( tableUsers.column(i).search() !== this.value ) {
+                    tableUsers
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            });
+        });
+
+        //Creacion de datatable
+        tableTask = $('#tasks_table').DataTable({
+            orderCellsTop: true,
+            fixedHeader: true,
+            dom: 'Blrtip',
+            columnDefs: [
+                { orderable: true, className: 'reorder', targets: [0,1,2,3,4,5] },
+                { orderable: false, targets: [6] }
+            ],
+            order:[0, 'ASC'],
+            searching:false,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100,
+            "{{('Todos')|trans}}"]],
+            buttons:[{
+                extend: 'excelHtml5',},
+                    {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    },
+            ],
+
+            rowId: 'idRow',
+            responsive: true,
+            autoWidth: true,
+            "processing": true,
+            "serverSide": true,
+                "pagingType": "full_numbers",
+            language: {
+                "sProcessing":
+                "{{ ('Procesando...') | trans }}","sLengthMenu": "{{ ('Mostrar _MENU_ registros') | trans}}",
+                "sZeroRecords": "{{ ('No se encontraron resultados') | trans }}",
+                "sEmptyTable": "{{ ('Ningún dato disponible en esta tabla') | trans }}",
+                "sInfo": "{{ ('Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros') | trans }}",
+                "sInfoEmpty": "{{ ('Mostrando registros del 0 al 0 de un total de 0 registros') | trans }}",
+                "sInfoFiltered": "{{ ('(filtrado de un total de _MAX_ registros)') | trans }}",
+                "sInfoPostFix": "",
+                "sSearch": "{{ ('Buscar:') | trans }}",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "{{ ('Cargando...') | trans }}",
+                "oPaginate": {
+                    "sFirst": "{{ ('Primero') | trans }}",
+                    "sLast": "{{ ('Último') | trans }}",
+                    "sNext": "{{ ('Siguiente') | trans }}",
+                    "sPrevious": "{{ ('Anterior') | trans }}",
+                },
+                "oAria": {
+                "sSortAscending": "{{ (': Activar para ordenar la columna de manera ascendente') | trans }}",
+                "sSortDescending": "{{ (': Activar para ordenar la columna de manera descendente') | trans }}"
+                },
+            },
+            ajax: {
+                url: "{{ path('test_taskdatatable') }}",
+                method: 'POST',
+                data: {'form_filters': $('#filtersForm').serialize() }
+            },
+            "drawCallback": function( settings ) {
+                datatableActions();
+            }, 
+            columns: [
+                {className:'details', data: 'id'},
+                {className:'details', data: 'name' },
+                {className:'details', data: 'description' },
+                {className:'details', data: 'created_At' },
+                {className:'details', data: 'updated_At' },
+                {className:'details', data: 'user_id' },
+                {data: null,
+                    render: function (data) {
+                        return '<a data-id="'+ data.id +'" id="delete" class="btn btn-danger btn-delete">Delete</a>';
+                    }
+                }
+            ]
+        });
+        
+    });
+
+
+    function datatableActions(){
+        //Boton de borrar
         $(".btn-delete").on("click", function () {
             var id=$(this).data("id");
             console.log(id);
             deletetaskAjax(id);
         });
+        
+        //Boton para ver task
+        $('#tasks_table tbody').unbind('click .details');
+        $('#tasks_table tbody').on('click', '.details', function () {
+            var tr = $(this).closest('tr');
+            details(tr);
+        });
+        
+    }
 
-        function deletetaskAjax(id){
+    //Funcion de eliminar tarear
+    function deletetaskAjax(id){
+        $.ajax({
+            url: "{{ path('test_deletetask') }}",
+            data: {
+                id:id
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if (data.status){
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                          confirmButton: 'btn btn-success',
+                          cancelButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                      })
+                      swalWithBootstrapButtons.fire({
+                        title: '¿Quiere eliminar el usuario?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: `Eliminar`,
+                        cancelButtonText: 'No, cancel!',
+                      }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                          Swal.fire({
+                              position: 'center',
+                              icon: 'success',
+                              title: 'Tarea borrada correctamente.',
+                              showConfirmButton: false,
+                              timer: 2000
+                            })
+                        } else if (result.isDenied) {
+                          Swal.fire('Este usuario sigue vivo', '', 'info')
+                        }
+                      })
+                    
+                } else{
+                    alert("error");
+                    alert(data.msg);
+                }
+            },
+
+            error: function (error) {
+                console.log("error");
+                console.log (error);
+            },
+        });
+    }
+
+    //Funcion desplegar detalles de la task
+    function details ( tr ) {
+        var row = tableTask.row( tr );
+        let d = row.data();
+        // d is the original data object for the row
+
+        if ( row.child.isShown() ) {
+            // cerrar si está desplegada
+            row.child.hide();
+            tr.removeClass('shown');
+        } else {
             $.ajax({
-                url: "{{ path('test_deletetask') }}",
-                data: {
-                    id:id
-                },
+                url: "{{ path('test_detailtask') }}",
+                data: { id: d["id"] },
                 type: 'POST',
-                dataType: 'json',
-                success: function (data) {
-                    console.log("success");
-                    console.log (data);
-                    if (data.status){
-                        const swalWithBootstrapButtons = Swal.mixin({
-                            customClass: {
-                              confirmButton: 'btn btn-success',
-                              cancelButton: 'btn btn-danger'
-                            },
-                            buttonsStyling: false
-                          })
-                          swalWithBootstrapButtons.fire({
-                            title: '¿Quiere eliminar el usuario?',
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonText: `Eliminar`,
-                            cancelButtonText: 'No, cancel!',
-                          }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                              Swal.fire({
-                                  position: 'center',
-                                  icon: 'success',
-                                  title: 'Usuario eliminado correctamente.',
-                                  showConfirmButton: false,
-                                  timer: 2000
-                                })
-                            } else if (result.isDenied) {
-                              Swal.fire('Este usuario sigue vivo', '', 'info')
-                            }
-                          })
-                        
-                    }
-                    else{
-                        alert("error");
-                        alert(data.msg);
-                    }
-
-                    /*$("#message").empty();
-                    $("#message").append(data.html);
-                    $("#message").show().delay(4000).fadeOut();
-                    */
+                dataType: 'HTML',
+                success: function(data) {
+                    row.child(data).show();
+                    tr.addClass('shown');
                 },
-
-                error: function (error) {
-                    console.log("error");
-                    console.log (error);
-                    /*$("#message").empty();
-                    $("#message").append(data.html);
-                    $("#message").show().delay(4000).fadeOut();*/
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No se ha podido llevar a cabo la acción',
+                      })
                 },
             });
         }
-    });
+    }
+
 </script>
 {% endblock javascripts %}

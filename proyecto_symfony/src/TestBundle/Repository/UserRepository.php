@@ -2,6 +2,8 @@
 
 namespace TestBundle\Repository;
 
+use Doctrine\DBAL\DBALException;
+
 /**
  * UserRepository
  *
@@ -9,52 +11,99 @@ namespace TestBundle\Repository;
  * repository methods below.
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository{
-    public function getTasksTable($params, $form_filters, $user) {
+    public function getUserTable($params, $form_filters, $user) {
         $em = $this->getEntityManager();
         //Array con las columnas para la ordenación
         $columns = [
             0 => "id",
-            1 => "name",
-            2 => "Description",
-            3 => 'Username',
-            4 => 'Created',
-            5 => 'Updated',
-            6 => 'Actions',
+            1 => "username",
+            2 => "first_name",
+            3 => "last_name",
+            4 => "email",
+            5 => "password",
+            6 => "role",
+            7 => "status",
+            8 => "created_at",
+            9 => "updated_at"];
 
-        ];
+        $sqlTot = $sqlRec = "";
+        $where = " WHERE TRUE ";
 
-        $qr = $em->getConnection();
-        $where = $sqlTot = $sqlRec = "";
-        
+        //Procesamos los filtros
+        if (isset($form_filters['username']) AND !empty($form_filters['username'])) {
+            $where .= " AND ( u.username LIKE '%". trim($form_filters['username']) ."%')" ;
+        }
+
+        if (isset($form_filters['user_id']) AND !empty($form_filters['user_id'])) {
+            $where .= "  AND ( u.id = '" . trim($form_filters['user_id']) ."' ) " ;
+        }
+
+        if (isset($form_filters['first_name']) AND !empty($form_filters['first_name'])) {
+            $where .= " AND ( u.first_name LIKE '%". trim($form_filters['first_name']) ."%')" ; 
+        }
+
+        if (isset($form_filters['last_name']) AND !empty($form_filters['last_name'])) {
+            $where .= " AND ( u.last_name LIKE '%". trim($form_filters['last_name']) ."%' )" ;
+        }
+
+        if (isset($form_filters['email']) AND !empty($form_filters['email'])) {
+            $where .= " AND ( u.email LIKE '%". trim($form_filters['email']) ."%' ) " ;
+        }
+
+        //Montamos la consulta
         $sql = "SELECT 
-        t.id as id,
-        t.name as title,
-        t.description as description,
-        IF(t.status = 0, 'Finalizada', 'En curso') AS status,
-        t.created_at as created_at,
-        t.updated_at as updated_at,
-        CONCAT(u.first_name, ' ' , u.last_name) AS username
-        FROM
-        user AS u
-        RIGHT JOIN tasks AS t ON t.user_id = u.id";
+        u.id as id,
+        u.username as username,
+        u.first_name as first_name,
+        u.last_name as last_name,
+        u.email as email,
+        u.password as `password`,
+        IF (role = 'ROLE_ADMIN', 'Administador', 'Usuario_basico') AS `role`,
+        u.is_active as `status`,
+        u.created_At as created_at,
+        u.updated_at as updated_at
+        FROM user AS u";
+        try{
+            //Creamos una query para el total y otra para los datos filtrados
+            // $sqlTot .= $sql;
+            $sqlRec .= $sql;
 
-        //Creamos una query para el total y otra para los datos filtrados
-        $sqlTot .= $sql;
-        $sqlRec .= $sql;
+            //Concatenamos los filtros
+            if (isset($where) && $where != '') {
+                $sqlRec .= $where;
+            }
 
-        //Ejecutamos las consultas
-        $queryTot = $this->getEntityManager()->getConnection()->executeQuery($sqlTot)->rowCount();
-        $queryRecordsTot = $this->getEntityManager()->getConnection()->executeQuery($sqlTot)->rowCount();
-        $queryRecords = $this->getEntityManager()->getConnection()->executeQuery($sqlRec)->fetchAll(\PDO::FETCH_ASSOC);
-        $data = $queryRecords;
+            //Procesamos la ordenación
+            if(isset($params['order'])){
+                $sqlRec .= " ORDER BY " . $columns[$params['order'][0]['column']] . " " . $params['order'][0]['dir'] ;
+            }
 
-        //Montamos la respuesta
-        $json_data = array(
-            "draw" => intval($params['draw']),
-            "recordsTotal" => intval($queryTot),
-            "recordsFiltered" => intval($queryRecordsTot),
-            "data" => $data
-        );
+            //Procesamos el paginado
+            $limit=" ";
+            if(isset($params['length']) && $params['length'] != -1){
+                $limit=" LIMIT ".$params['start']." ,".$params['length']." ";
+            }
+
+            //Guardamos en una variable la consulta filtrada antes de añadirle el limit, para el contador
+            $sqlTot .= $sqlRec;
+            $sqlRec .= $limit;
+
+            //Ejecutamos las consultas
+            $queryTot = $this->getEntityManager()->getConnection()->executeQuery($sqlTot)->rowCount();
+            $queryRecordsTot = $this->getEntityManager()->getConnection()->executeQuery($sqlTot)->rowCount();
+            $queryRecords = $this->getEntityManager()->getConnection()->executeQuery($sqlRec)->fetchAll(\PDO::FETCH_ASSOC);
+            $data = $queryRecords;
+
+            //Montamos la respuesta
+            $json_data = array(
+                // "draw" => intval($params['draw']),
+                "recordsTotal" => intval($queryTot),
+                "recordsFiltered" => intval($queryRecordsTot),
+                "data" => $data
+            );
+        }catch (DBALException $e) {
+            $json_data = $e->getMessage();
+        }
 
         return $json_data;
     }

@@ -16,13 +16,54 @@ class UserService{
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * Function to create a user and validations 
+     * @author Miguel Orzaez <orzaezpintor@gmail.com>
+     * @param array $param
+     * @return $result
+     */
+
     public function createUser(array $param){            
         $result = array(
             'status'    => false,
             'code'      => '404',
             'message'   => 'Error al realizar la funcion'
         );
+        $em = $this->entityManager;
+
+        if (empty($param['username'])){
+            $result['message'] =  "Usuario vacio";
+            return $result;
+        }        
+        $user = $em->getRepository("TestBundle:User")->findOneByUsername($param['username']);
+        if (!empty($user)){
+            $result['message'] = "Usuario repetidos";
+            return $result;
+        }
+        if (empty($param['first_name'])){
+            $result['message'] =  "Nombre vacio";
+            return $result;
+        }
+        if (empty($param['last_name'])){
+            $result['message'] =  "Last name vacio";
+            return $result;
+        }
+
+        if (empty($param['email'])){
+            $result['message'] =  "email vacio";
+            return $result;
+        }
+        if (!filter_var($param['email'], FILTER_VALIDATE_EMAIL)) {
+            $result['message'] =  "Esta dirección de correo no es válida.";
+            return $result;
+        }
         
+        if (empty($param['password'])){
+            $result['message'] =  "password vacio";
+            return $result;
+        }
+
+
         try {
             $username = $param['username'];
             $first_name = $param['first_name'];
@@ -32,7 +73,7 @@ class UserService{
             $role = $param['role'];
             
             $user = new User;
-            $em = $this->entityManager;
+           
             
             $user->setUsername($username);
             $user->setFirstName($first_name);
@@ -49,7 +90,7 @@ class UserService{
             $em->persist($user);
             $em->flush();
 
-            $result["status"] = "success";
+            $result["status"] = true;
             $result["code"] = "200";
             $result["message"] = "Usuario creado con exito.";
         }
@@ -90,12 +131,10 @@ class UserService{
     }
 
     /**
-     * Undocumented function
-     *  
-     * @author asdf <asdf>
-     * 
+     * Funtion to create a task
+     * @author Miguel Orzaez <orzaezpintor@gmail.com>
      * @param array $param
-     * @return void
+     * @return $result
      */
     
     public function createTask (array $param){

@@ -3,7 +3,7 @@
         <div class="body">
             <div class="main-block">
                 <div class="title">
-                    <h3>Sing Up</h3>
+                    <h3>{{'Identificarse'|trans}}</h3>
                 </div>
                 <div class="form-group">
                     <form action="{{ path('test_user_login_check') }}" method="post" class="main">
@@ -17,14 +17,14 @@
                         <div class="col-sm-12">
                             <hr>
                             <div>
-                                <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" placeholder="Usuario" required autofocus />
+                                <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" placeholder={{'Usuario'|trans}} required autofocus />
                             </div>
                             <br>
                             <div class="">
-                                <input type="password" id="password" class="form-control" name="_password" placeholder="Contraseña" required />
+                                <input type="password" id="password" class="form-control" name="_password" placeholder={{'Contraseña'|trans}} required />
                             </div>
                             <hr>
-                            <button type="submit" class="btn btn-lg btn-block">{{ 'Sign in'|trans }}</button>                
+                            <button type="submit" class="btn btn-lg btn-block">{{ 'Identificarse'|trans }}</button>                
                     </form>
                 </div>
             </div>

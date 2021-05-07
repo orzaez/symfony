@@ -1,0 +1,20 @@
+{% block body %}
+    {# {{ dump(task) }} #}
+        <div class="container-fluid col-md-12 ">
+            <div class="col-md-4 displaytask ">
+                <h2>Titulo: {{ task.name }}</h2>
+            </div>
+            <div  class="col-md-4 displaytask" >
+                <h6>Descripción:</h6><br>
+            </div>
+            <div class="col-md-4 displaytask">
+                <textarea name="comentarios" rows="10" cols="40">{{task.description}}</textarea>
+            </div>
+            <br>
+            <div class="col-md-4" >
+                <button id="cerrar" type="button" class="btn guardar">Cerrar</button>
+            </div>
+            {# {{ task.created_At }} #}
+        </div>
+{% endblock body %}
+

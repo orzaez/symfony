@@ -1,56 +1,29 @@
 {% extends 'layout_viewuser.html.twig' %}
 {% block body %}
 {{ parent() }}
+
 <div class="container-fluid"> 
     <div class="col-md-12">
         <div class="title">
             <h2>Users list</h2>
         </div>
         <div class="table-responsive table">
-            <table class="table table-striped table-hover">
+            <table id="user_table" class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Username</th>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Email</th>
-                        <th>Password</th>
-                        <th>Role</th>
-                        <th>Is_active</th>
-                        <th>Created</th>
-                        <th>Updated</th>
-                        <th>Actions</th>
-                        
+                        <th>{{'Usuario'|trans}}</th>
+                        <th>{{'Nombre'|trans}}</th>
+                        <th>{{'Apellidos'|trans}}</th>
+                        <th>{{'Correo electronico'|trans}}</th>
+                        <th>{{'Contraseña'|trans}}</th>
+                        <th>{{'Rol'|trans}}</th>
+                        <th>{{'Activo'|trans}}</th>
+                        <th>{{'Creado'|trans}}</th>
+                        <th>{{'Modificado'|trans}}</th>
+                        <th>{{'Acciones'|trans}}</th>
                     </tr>
                 </thead>    
-                <tbody>
-                    {% for User in users  %}
-                        <tr>
-                            <td>{{ User.id }}</td>
-                            <td>{{ User.username }}</td>
-                            <td>{{ User.getFirstName()}}</td>
-                            <td>{{ User.lastname }}</td>
-                            <td>{{ User.email }}</td>
-                            <td>{{ User.password }}</td>
-                            <!-- <td>{{ User.role }}</td> -->
-                            <td>
-                                {% if User.role == 'ROLE_ADMIN' %}
-                                    <strong>Administrator</strong>
-                                {% elseif User.role == 'ROLE_USER' %}
-                                    <strong>Usuario basico</strong>
-                                {% endif %}
-                            </td>
-                        
-                            <td>{{ User.getIsActive() }}</td>
-                            <td>{{ User.getCreatedAt()|date("d-m-y H:i") }}</td>
-                            <td>{{ User.getUpdatedAt()|date("d-m-y H:i") }}</td>
-                            <td>
-                                <a data-id="{{ User.id }}" id="delete" href="#" class="btn btn-danger btn-delete">Delete</a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>    
             </table>
         </div>
     </div>
@@ -61,12 +34,108 @@
 
 <script>
     $(document).ready(function () {
+        // Datatable
+        $('#user_table thead tr').clone(true).appendTo('#user_table thead');
+        $('#user_table thead tr:eq(1) th').each( function (i){
+            var title = $(this).text();
+            if (i==10){
+                $(this).html( '' );
+            }else{
+                $(this).html( '<input style="width:75%;" type="text" placeholder="'+title+'" />' );
+            }
+            $('input', this ).on( 'keyup change', function () {
+                if ( tableUsers.column(i).search() !== this.value ) {
+                    tableUsers
+                        .column(i)
+                        .search( this.value )
+                        .draw();
+                }
+            });
+        });
+        tableUsers = $('#user_table').DataTable({
+            orderCellsTop: true,
+            fixedHeader: true,
+            dom: 'Blrtip',
+            columnDefs: [
+                { orderable: true, className: 'reorder', targets: [0,1,2,3,4,5,6,7,9] },
+                { orderable: false, targets: [10] }
+            ],
+            order:[0, 'ASC'],
+            searching:true,
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100,
+            "{{('Todos')|trans}}"]],
+            buttons:[{
+                extend: 'excelHtml5',},
+                    {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    },
+            ],
+            rowId: 'idRow',
+            responsive: true,
+            autoWidth: true,
+            "processing": true,
+            "serverSide": false,
+            "pagingType": "full_numbers",
+            language: {
+                "sProcessing":
+                "{{ ('Procesando...') | trans }}","sLengthMenu": "{{ ('Mostrar _MENU_ registros') | trans}}",
+                "sZeroRecords": "{{ ('No se encontraron resultados') | trans }}",
+                "sEmptyTable": "{{ ('Ningún dato disponible en esta tabla') | trans }}",
+                "sInfo": "{{ ('Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros') | trans }}",
+                "sInfoEmpty": "{{ ('Mostrando registros del 0 al 0 de un total de 0 registros') | trans }}",
+                "sInfoFiltered": "{{ ('(filtrado de un total de _MAX_ registros)') | trans }}",
+                "sInfoPostFix": "",
+                "sSearch": "{{ ('Buscar:') | trans }}",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "{{ ('Cargando...') | trans }}",
+                "oPaginate": {
+                    "sFirst": "{{ ('Primero') | trans }}",
+                    "sLast": "{{ ('Último') | trans }}",
+                    "sNext": "{{ ('Siguiente') | trans }}",
+                    "sPrevious": "{{ ('Anterior') | trans }}",
+                },
+                "oAria": {
+                "sSortAscending": "{{ (': Activar para ordenar la columna de manera ascendente') | trans }}",
+                "sSortDescending": "{{ (': Activar para ordenar la columna de manera descendente') | trans }}"
+                },
+            },
+            ajax: {
+                url: "{{ path('test_userdatable') }}",
+                method: 'POST',
+                data: {'form_filters': $('#filtersForm').serialize() }
+            },
+            "drawCallback": function( settings ) {
+                datatableActions();
+            }, 
+            columns: [
+                { data: 'id'},
+                { data: 'username' },
+                { data: 'first_name' },
+                { data: 'last_name' },
+                { data: 'email' },
+                { data: 'password' },
+                { data: 'role' },
+                { data: 'status' },
+                { data: 'created_at' },
+                { data: 'updated_at' },
+                { data: null,
+                    render: function (data) {
+                        return '<a data-id="'+ data.id +'" id="delete" class="btn btn-danger btn-delete">Delete</a>';
+                    }
+                }
+            ]
+        });
+    });
+    function datatableActions() {
+        // Botón de borrar
         $(".btn-delete").on("click", function () {
+
             var id=$(this).data("id");
-            console.log(id);
             deleteuserAjax(id);
         });
-
         function deleteuserAjax(id){
             $.ajax({
                 url: "{{ path('test_delete') }}",
@@ -101,7 +170,10 @@
                                   title: 'Usuario eliminado correctamente.',
                                   showConfirmButton: false,
                                   timer: 2000
-                                })
+                                });
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000);
                             } else if (result.isDenied) {
                               Swal.fire('Este usuario sigue vivo', '', 'info')
                             }
@@ -112,22 +184,15 @@
                         alert("error");
                         alert(data.msg);
                     }
-
-                    /*$("#message").empty();
-                    $("#message").append(data.html);
-                    $("#message").show().delay(4000).fadeOut();
-                    */
                 },
-
+    
                 error: function (error) {
                     console.log("error");
                     console.log (error);
-                    /*$("#message").empty();
-                    $("#message").append(data.html);
-                    $("#message").show().delay(4000).fadeOut();*/
                 },
             });
         }
-    });
+        }
+
 </script>
 {% endblock javascripts %}

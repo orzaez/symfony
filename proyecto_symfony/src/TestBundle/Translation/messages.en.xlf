@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="1">
+                <source>Usuarios</source>
+                <target>Users</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Mostrar usuarios</source>
+                <target>Users</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Crear usuario</source>
+                <target>New user</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Tareas</source>
+                <target>Tasks</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Crear tarea</source>
+                <target>Create task</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Ver todas las tareas</source>
+                <target>Show all tasks</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Mis tareas</source>
+                <target>My tasks</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Usuario</source>
+                <target>Username</target>
+            </trans-unit>     
+            <trans-unit id="9">
+                <source>Nombre</source>
+                <target>First name</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Apellidos</source>
+                <target>Last name</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Correo electrónico</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Contraseña</source>
+                <target>Password</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Rol</source>
+                <target>Role</target>
+            </trans-unit>   
+            <trans-unit id="14">
+                <source>Activo</source>
+                <target>Active</target>
+            </trans-unit> 
+            <trans-unit id="15">
+                <source>Creado</source>
+                <target>Created</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>Modificado</source>
+                <target>Updated</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>Acciones</source>
+                <target>Actions</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>Administrador</source>
+                <target>Administrator</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>Usuario basico</source>
+                <target>Basic User</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>Eliminar</source>
+                <target>Delete</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>Aceptar</source>
+                <target>Confirm</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>Titulo</source>
+                <target>Title</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>Guardar</source>
+                <target>Save</target>
+            </trans-unit>
+            <trans-unit id="24">
+                <source>Descripción</source>
+                <target>Description</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

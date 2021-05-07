@@ -8,14 +8,45 @@ body {
     color: white;
 }
 .table {
-    font-size: 20px;
-color: white;
+    /* font-size: 20px; */
+/* color: white; */
 border-collapse: collapse;
 /* width: 99vw;
 height: 30vh; */
 text-align: center;
---bs-table-striped-color: #ffffff;
+/* --bs-table-striped-color: #ffffff; */
 }
 th{
     background-color: tomato;
+    color: white;
+}
+td {
+    color: default;
+}
+
+.dataTables_info {
+    color: white !important;
+}
+.dataTables_length{
+    color: #fff !important;
+}
+.buscar{
+    background-color: aquamarine;
+    width: 50% !important;
+}
+
+.details {
+    cursor: pointer;
+}
+.displaytask{
+    color:rgba(48, 100, 41, 0.576);
+    display: flex;
+    justify-content: start;
+
+}
+.guardar{
+    color:white;
+    background-color: rgba(48, 100, 41, 0.576);
+    display: flex;
+    justify-content: start;
 }

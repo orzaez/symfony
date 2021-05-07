@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+    
         <meta charset="UTF-8" />
-            <title> 
-                {% block title %}Asignacion de tareas{% endblock %}
-            </title>
-            {% block stylesheets %}
-                <link rel="stylesheet" href="{{ asset ('public/css/bootstrap.min.css') }}" />
-                <link rel="stylesheet" href="{{ asset ('public/css/style_viewuser.css') }}" />
-                <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-
-            {% endblock %}
-                <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <title>{% block title %}Asignacion de tareas{% endblock %}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset ('public/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+        <link rel="stylesheet" href="{{ asset ('public/css/style_displaytask.css') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         {{ include ('menu.html.twig') }}
+    
     </head>
     <body>
         {% block body %}

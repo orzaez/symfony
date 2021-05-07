@@ -16,6 +16,11 @@ test_delete:
     path:     /user/delete
     defaults: { _controller: TestBundle:Entity:delete } 
 
+test_userdatable:
+    path: /user/datatable
+    defaults: {_controller: TestBundle:Entity:getUsersDatatable}
+
+
 # Tasks
 
 test_viewtask:
@@ -31,12 +36,20 @@ test_addtask:
     defaults: { _controller: TestBundle:Entity:addtask }
     
 test_deletetask:
-    path:     /user/deletetask
+    path:     /task/deletetask
     defaults: { _controller: TestBundle:Entity:deletetask }
 
 test_mytask:
-    path:     /user/mytask
+    path:     /task/mytask
     defaults: { _controller: TestBundle:Entity:mytask }
+
+test_taskdatatable:
+    path:     /task/taskdatatable
+    defaults: {_controller: TestBundle:Entity:getTaskDatatable}
+
+test_detailtask:
+    path:     /task/detailtask
+    defaults: {_controller: TestBundle:Entity:detailTask}
 
 # Autentication
 
