@@ -121,7 +121,7 @@ class EntityController extends Controller{
 
         $result = $createTaskService->createTask($request->request->all());
         return new JsonResponse($result);
-}
+    }
     /**
     *Funtion that shows the windows where create the tasks     
     *@author Miguel Orzaez <orzaezpintor@gmail.com>
@@ -190,7 +190,29 @@ class EntityController extends Controller{
                 "user" => $users
             ));
     }
+    /**
+    *Funtion to show the details from the task  
+    *@author Miguel Orzaez <orzaezpintor@gmail.com>
+    * @return $result
+    */
+    public function updateTaskAction(Request $request){
+        $updateTaskService = $this->get('user_service');
+        $params = array();
+        
+        $params ['id'] = $request->request->get('taskid');
+        $params ['name'] = $request->request->get('name');
+        $params ['comment'] =  $request->request->get('comment');
+        $params ['user'] = $request->request->get('user');
 
+
+        if(!$request->isXmlHttpRequest()) {
+            $result["message"] = "Error al obtener mÃ©todo.";
+            return new JsonResponse($result);
+        }
+        $result = $updateTaskService->createOrUpdateTask($params);
+        return new JsonResponse($result);
+
+    }
     
     
 }
